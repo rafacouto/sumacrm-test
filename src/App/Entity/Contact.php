@@ -1,5 +1,6 @@
 <?php
-namespace Entity;
+namespace App\Entity;
+
 
 class Contact
 {
@@ -150,6 +151,24 @@ class Contact
     {
         $this->phone = $phone;
         return $this;
+    }
+
+    /**
+     * Factory from array.
+     *
+     * @param array $record
+     * @return \App\Entity\Contact
+     */
+    public static function fromArray($record)
+    {
+        $contact = new Contact();
+
+        $contact->setEmail($record['email']);
+        $contact->setFirstname($record['firstname']);
+        $contact->setLastname($record['lastname']);
+        $contact->setPhone($record['phone']);
+
+        return $contact;
     }
 }
 

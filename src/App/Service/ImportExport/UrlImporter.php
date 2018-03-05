@@ -1,8 +1,8 @@
 <?php
-namespace Service\ImportExport;
+namespace App\Service\ImportExport;
 
+use App\Service\ImportExport\Csv\CsvContactImporter;
 use GuzzleHttp\Client;
-use Service\ImportExport\Csv\CsvContactImporter;
 
 class UrlImporter
 {

@@ -1,6 +1,5 @@
 <?php
-namespace Repository;
-
+namespace App\Repository;
 
 interface ContactsRepository
 {
@@ -9,7 +8,7 @@ interface ContactsRepository
      * Adds a new contact to the repository
      *
      * @param integer $id_account
-     * @param \Entity\Contact $contact
+     * @param \App\Entity\Contact $contact
      */
     function addNew($id_account, $contact);
 
@@ -34,7 +33,7 @@ interface ContactsRepository
      *
      * @param integer $id_account
      * @param string $email
-     * @return \Entity\Contact
+     * @return \App\Entity\Contact
      */
     function get($id_account, $email);
 }

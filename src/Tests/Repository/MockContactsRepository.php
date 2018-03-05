@@ -1,8 +1,7 @@
 <?php
 namespace Tests\Repository;
 
-use Entity\Contact;
-use Repository\ContactsRepository;
+use App\Repository\ContactsRepository;
 
 class MockContactsRepository implements ContactsRepository
 {
@@ -17,23 +16,24 @@ class MockContactsRepository implements ContactsRepository
     /**
      *
      * {@inheritdoc}
-     * @see \Repository\ContactsRepository::addNew()
+     * @see \App\Repository\ContactsRepository::addNew()
      */
     public function addNew($id_account, $contact)
     {
         $key = $id_account . '-' . $contact->getEmail();
+        $contact->setId(count($this->contacts) + 1);
 
-        $contacts[$key] = $contact;
+        $this->contacts[$key] = $contact;
     }
 
     /**
      *
      * {@inheritdoc}
-     * @see \Repository\ContactsRepository::alreadyExists()
+     * @see \App\Repository\ContactsRepository::alreadyExists()
      */
     public function alreadyExists($id_account, $email)
     {
-        $key = $id_account . '-' . $contact['email'];
+        $key = $id_account . '-' . $email;
 
         return array_key_exists($key, $this->contacts);
     }
@@ -41,7 +41,7 @@ class MockContactsRepository implements ContactsRepository
     /**
      *
      * {@inheritdoc}
-     * @see \Repository\ContactsRepository::count()
+     * @see \App\Repository\ContactsRepository::count()
      */
     public function count()
     {
@@ -51,7 +51,7 @@ class MockContactsRepository implements ContactsRepository
     /**
      *
      * {@inheritdoc}
-     * @see \Repository\ContactsRepository::get()
+     * @see \App\Repository\ContactsRepository::get()
      */
     public function get($id_account, $email)
     {
@@ -59,7 +59,7 @@ class MockContactsRepository implements ContactsRepository
             return FALSE;
         }
 
-        $key = $id_account . '-' . $contact['email'];
+        $key = $id_account . '-' . $email;
 
         $contact = $this->contacts[$key];
         return $contact;

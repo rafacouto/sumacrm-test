@@ -1,4 +1,9 @@
 {
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
     "require": {
         "league/csv": "^9.1",
         "guzzlehttp/guzzle": "^6.3",

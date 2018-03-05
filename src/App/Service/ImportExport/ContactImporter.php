@@ -1,5 +1,5 @@
 <?php
-namespace Service\ImportExport;
+namespace App\Service\ImportExport;
 
 interface ContactImporter
 {

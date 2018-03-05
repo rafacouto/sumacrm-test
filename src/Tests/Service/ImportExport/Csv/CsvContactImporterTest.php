@@ -1,9 +1,9 @@
 <?php
-use PHPUnit\Framework\TestCase;
-use Service\ImportExport\Csv\CsvContactImporter;
-use Tests\Repository\MockContactsRepository;
+namespace Tests\Service\ImportExport\Csv;
 
-require_once 'Service/ImportExport/Csv/CsvContactImporter.php';
+use App\Service\ImportExport\Csv\CsvContactImporter;
+use PHPUnit\Framework\TestCase;
+use Tests\Repository\MockContactsRepository;
 
 /**
  * CsvContactImporter test case.
@@ -39,17 +39,27 @@ class CsvContactImporterTest extends TestCase
      */
     public function testImport()
     {
-        $file = dirname(__DIR__) . '/../../../resources/mock/contacts_import_01.csv';
+        $file = dirname(__DIR__) . '/../../../../resources/mock/contacts_import_01.csv';
         $id_account = 1;
 
         // 2 contacts in file
         $this->csvContactImporter->import($file, $id_account);
         $this->assertSame(2, $this->contactsRepository->count());
 
+        // first sample in the mock CSV file
+        $test_contact = [
+            'email' => 'rafa@aplicacionesyredes.com',
+            'firstname' => 'Rafa',
+            'lastname' => 'Couto',
+            'phone' => '656123123'
+        ];
+
         // contact data was imported
-        $email = 'rafa@aplicacionesyredes.com';
-        $contact = $this->contactsRepository->get($id_account, $email);
-        $this->assertSame($email, $contact->getEmail());
+        $contact = $this->contactsRepository->get($id_account, $test_contact['email']);
+        $this->assertSame($test_contact['email'], $contact->getEmail());
+        $this->assertSame($test_contact['firstname'], $contact->getFirstname());
+        $this->assertSame($test_contact['lastname'], $contact->getLastname());
+        $this->assertSame($test_contact['phone'], $contact->getPhone());
     }
 }
 
