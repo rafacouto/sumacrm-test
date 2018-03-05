@@ -7,23 +7,18 @@ use Service\ImportExport\Csv\CsvContactImporter;
 class UrlImporter
 {
 
-    public function __construct()
-    {
-    }
-
-    public function importCsvContacts($url)
+    public function importCsvContacts($url, $id_account)
     {
         // download
         $temp_file = tempnam(sys_get_temp_dir(), uniqid());
-        ;
         $this->downloadFile($url, $temp_file);
 
         $csv_import = new CsvContactImporter();
+        $csv_import->import($temp_file, $id_account);
     }
 
-    public function downloadFile($url, $localFilePath)
+    protected function downloadFile($url, $localFilePath)
     {
-        // TODO process line by l
         $client = new Client();
         $response = $client->send($client->get($url));
         if ($response->getBody()->isReadable()) {

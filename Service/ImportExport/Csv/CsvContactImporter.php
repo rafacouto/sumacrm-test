@@ -1,13 +1,36 @@
 <?php
 namespace Service\ImportExport\Csv;
 
-class CsvContactImporter
+use Service\ImportExport\ContactImporter;
+use Repository\ContactsRepository;
+
+class CsvContactImporter implements ContactImporter
 {
 
-    public function __construct()
+    /**
+     *
+     * @var ContactsRepository
+     */
+    protected $repository;
+
+    /**
+     * Constructor.
+     *
+     * @param ContactsRepository $repo
+     *            Repository where the contacts are imported to.
+     */
+    public function __construct(ContactsRepository $repo)
     {
+        $this->repository = $repo;
     }
 
-
+    /**
+     *
+     * {@inheritdoc}
+     * @see \Service\ImportExport\ContactImporter::import()
+     */
+    public function import($temp_file, $id_account)
+    {
+    }
 }
 
