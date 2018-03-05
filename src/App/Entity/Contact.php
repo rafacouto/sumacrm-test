@@ -1,7 +1,6 @@
 <?php
 namespace App\Entity;
 
-
 class Contact
 {
 
@@ -11,14 +10,11 @@ class Contact
 
     protected $email;
 
-    protected $firstname;
-
-    protected $lastname;
-
-    protected $phone;
+    protected $data;
 
     public function __construct()
     {
+        $data = [];
     }
 
     /**
@@ -36,7 +32,7 @@ class Contact
      *
      * @return mixed
      */
-    public function getId_account()
+    public function getIdAccount()
     {
         return $this->id_account;
     }
@@ -58,7 +54,7 @@ class Contact
      */
     public function getFirstname()
     {
-        return $this->firstname;
+        return (array_key_exists('firstname', $this->data) ? $this->data['firstname'] : NULL);
     }
 
     /**
@@ -68,7 +64,7 @@ class Contact
      */
     public function getLastname()
     {
-        return $this->lastname;
+        return (array_key_exists('lastname', $this->data) ? $this->data['lastname'] : NULL);
     }
 
     /**
@@ -78,7 +74,7 @@ class Contact
      */
     public function getPhone()
     {
-        return $this->phone;
+        return (array_key_exists('phone', $this->data) ? $this->data['phone'] : NULL);
     }
 
     /**
@@ -99,7 +95,7 @@ class Contact
      * @param mixed $id_account
      * @return self
      */
-    public function setId_account($id_account)
+    public function setIdAccount($id_account)
     {
         $this->id_account = $id_account;
         return $this;
@@ -125,7 +121,7 @@ class Contact
      */
     public function setFirstname($firstname)
     {
-        $this->firstname = $firstname;
+        $this->data['firstname'] = $firstname;
         return $this;
     }
 
@@ -137,7 +133,7 @@ class Contact
      */
     public function setLastname($lastname)
     {
-        $this->lastname = $lastname;
+        $this->data['lastname'] = $lastname;
         return $this;
     }
 
@@ -149,7 +145,7 @@ class Contact
      */
     public function setPhone($phone)
     {
-        $this->phone = $phone;
+        $this->data['phone'] = $phone;
         return $this;
     }
 
@@ -169,6 +165,16 @@ class Contact
         $contact->setPhone($record['phone']);
 
         return $contact;
+    }
+
+    /**
+     * Update fields from another contact.
+     *
+     * @param Contact $another_contact
+     */
+    public function updateFields($another_contact)
+    {
+        $this->data = array_merge($this->data, $another_contact->data);
     }
 }
 

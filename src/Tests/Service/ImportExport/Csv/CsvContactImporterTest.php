@@ -54,8 +54,11 @@ class CsvContactImporterTest extends TestCase
             'phone' => '656123123'
         ];
 
+        // contact exists
+        $contact = $this->contactsRepository->findByEmail($test_contact['email']);
+        $this->assertNotFalse($contact);
+
         // contact data was imported
-        $contact = $this->contactsRepository->get($id_account, $test_contact['email']);
         $this->assertSame($test_contact['email'], $contact->getEmail());
         $this->assertSame($test_contact['firstname'], $contact->getFirstname());
         $this->assertSame($test_contact['lastname'], $contact->getLastname());

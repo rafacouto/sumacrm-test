@@ -2,6 +2,7 @@
 namespace Tests\Repository;
 
 use App\Repository\ContactsRepository;
+use App\Entity\Contact;
 
 class MockContactsRepository implements ContactsRepository
 {
@@ -20,22 +21,21 @@ class MockContactsRepository implements ContactsRepository
      */
     public function addNew($id_account, $contact)
     {
-        $key = $id_account . '-' . $contact->getEmail();
+        $email = $contact->getEmail();
+        if (!$email) {
+            throw new \RuntimeException('Contact must have an email.');
+        }
+
+        // check it is really new
+        if ($this->findByEmail($email)) {
+            throw new \RuntimeException('Contact already exists.');
+        }
+
+        // complete the keys
         $contact->setId(count($this->contacts) + 1);
+        $contact->setIdAccount($id_account);
 
-        $this->contacts[$key] = $contact;
-    }
-
-    /**
-     *
-     * {@inheritdoc}
-     * @see \App\Repository\ContactsRepository::alreadyExists()
-     */
-    public function alreadyExists($id_account, $email)
-    {
-        $key = $id_account . '-' . $email;
-
-        return array_key_exists($key, $this->contacts);
+        $this->contacts[$email] = $contact;
     }
 
     /**
@@ -48,21 +48,45 @@ class MockContactsRepository implements ContactsRepository
         return count($this->contacts);
     }
 
+        /**
+     *
+     * {@inheritdoc}
+     * @see \App\Repository\ContactsRepository::isGranted()
+     */
+    public function isGranted($id_account, $email)
+    {
+        // TODO check ACL to match id_account with contact register.
+        return TRUE;
+    }
+
     /**
      *
      * {@inheritdoc}
-     * @see \App\Repository\ContactsRepository::get()
+     * @see \App\Repository\ContactsRepository::update()
      */
-    public function get($id_account, $email)
+    public function update($contact)
     {
-        if (!$this->alreadyExists($id_account, $email)) {
-            return FALSE;
+        $current = &$this->find($contact->getEmail());
+        if ($current) {
+
+            $current->updateFields($contact);
+        }
+    }
+
+    /**
+     * Looks for a contact by email.
+     *
+     * @param string $email
+     * @return Contact|FALSE The contact or FALSE if not found.
+     */
+    public function findByEmail($email)
+    {
+        if (array_key_exists($email, $this->contacts)) {
+
+            return $this->contacts[$email];
         }
 
-        $key = $id_account . '-' . $email;
-
-        $contact = $this->contacts[$key];
-        return $contact;
+        return FALSE;
     }
 }
 

@@ -13,13 +13,12 @@ interface ContactsRepository
     function addNew($id_account, $contact);
 
     /**
-     * Returns if a contacts exists to an account.
+     * Looks for a contact by email.
      *
-     * @param integer $id_account
      * @param string $email
-     * @return boolean
+     * @return \App\Entity\Contact|FALSE The contact or FALSE if not found.
      */
-    function alreadyExists($id_account, $email);
+    public function findByEmail($email);
 
     /**
      * Returns the number of contacts in the repository.
@@ -29,12 +28,19 @@ interface ContactsRepository
     function count();
 
     /**
-     * Returns an account's contact identified by email.
+     * Check visibility permissions.
      *
      * @param integer $id_account
      * @param string $email
-     * @return \App\Entity\Contact
+     * @return boolean
      */
-    function get($id_account, $email);
+    function isGranted($id_account, $email);
+
+    /**
+     * Update the contact
+     *
+     * @param \App\Entity\Contact $contact
+     */
+    function update($contact);
 }
 
