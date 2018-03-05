@@ -1,0 +1,7 @@
+# eclipse ide
+.buildpath
+.project
+.settings/
+
+# composer
+vendor/
