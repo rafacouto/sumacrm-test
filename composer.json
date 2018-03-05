@@ -1,6 +1,7 @@
 {
     "require": {
         "league/csv": "^9.1",
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "phpunit/phpunit": "^6.5"
     }
 }
