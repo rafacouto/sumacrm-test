@@ -13,8 +13,12 @@ class UrlImporter
         $temp_file = tempnam(sys_get_temp_dir(), uniqid());
         $this->downloadFile($url, $temp_file);
 
+        // import
         $csv_import = new CsvContactImporter();
         $csv_import->import($temp_file, $id_account);
+
+        // delete the temporary file
+        unlink($temp_file);
     }
 
     protected function downloadFile($url, $localFilePath)
