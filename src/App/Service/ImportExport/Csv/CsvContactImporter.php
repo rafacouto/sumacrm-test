@@ -3,8 +3,9 @@ namespace App\Service\ImportExport\Csv;
 
 use App\Entity\Contact;
 use League\Csv\Reader;
+use App\Service\ImportExport\ContactImporter;
 
-class CsvContactImporter
+class CsvContactImporter implements ContactImporter
 {
 
     /**
